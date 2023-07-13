@@ -1,9 +1,21 @@
-import Head from "next/head";
-import Image from "next/image";
+import Head from "next/head"
+import Image from "next/image"
 
-import Form1 from "../components/Form1";
+import Form1 from "../components/Form1"
+import Form2 from "../components/Form2"
+import ItemHeader from "../components/ItemHeader"
+import ItemCard from "../components/ItemCard"
+
+import MockData from "./api/mockData"
+import { useState } from "react"
 
 export default function Home() {
+  const [members, setMembers] = useState([...MockData.slice(0, 3)])
+
+  const handleAddMember = () => {
+    setMembers([...members, MockData[3]])
+  }
+
   return (
     <>
       <Head>
@@ -12,11 +24,22 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <br />
-        <h1 className="text-center">Add Insurance</h1>
-        <Form1 />
-      </main>
+      <div className="w-[592px] m-auto mt-24 text-xs">
+        <h1 className="text-left mb-3 font-bold">Household</h1>
+
+        <ItemHeader />
+
+        {members.map((member, i) => {
+          return <ItemCard member={member} key={i} />
+        })}
+
+        <div className="flex justify-between">
+          <div>Household member</div>
+          <div className="text-green-400">
+            <button onClick={handleAddMember}>+Add new member</button>
+          </div>
+        </div>
+      </div>
     </>
-  );
+  )
 }
